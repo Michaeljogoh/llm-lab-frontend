@@ -14,9 +14,60 @@ pnpm dev
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+# 🧪 LLM Lab — Explore the Mind of AI
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+> **Understand how parameters like `temperature`, `top_p`, `top_k`  shape LLM behavior through interactive experiments and visual analytics.**
+
+---
+
+## 🚀 Overview
+
+**LLM Lab** is a full-stack experimental console that helps users dissect how Large Language Models (LLMs) behave under different generation settings.  
+You can input prompts, tweak generation parameters, visualize multiple model outputs, and analyze them using programmatic quality metrics you define.
+
+The goal: make the invisible visible — see how the AI “thinks” when you turn the dials.
+
+---
+
+## 🧱 Tech Stack
+
+| Layer | Technology | Description |
+|-------|-------------|-------------|
+| **Frontend** | [Next.js 15](https://nextjs.org) + [TypeScript](https://www.typescriptlang.org) + [Tailwind CSS](https://tailwindcss.com) | Interactive dashboard, charts, and parameter controls |
+| **Backend** | [Node.js](https://nodejs.org) with  [NestJS](https://nestjs.com) | Handles API requests, LLM calls, and metric computation |
+| **Database** | [Mongodb]() | Stores experiments, responses, and user-defined metrics |
+| **LLM API** | Gemini 
+| **Visualization** | [Score]
+---
+
+## 🧩 Architecture
+
+┌──────────────────────────────┐
+│ Frontend │
+│ Next.js + Tailwind + TS │
+│ - Prompt input form │
+│ - Parameter sliders │
+└──────────────┬───────────────┘
+
+
+**Data Flow:**
+1. User submits prompt + parameter range  
+2. Backend triggers multiple LLM calls  
+3. Responses stored with parameters & computed metrics  
+4. Frontend fetches and displays comparison dashboard  
+
+---
+
+Set up environment variables
+
+Create a .env.local file in the root directory and add:
+
+NEXT_PUBLIC_BASE_URL=<your_supabase_url>
+
+
+Open [https://llm-lab-frontend-one.vercel.app/](https://llm-lab-frontend-one.vercel.app/) with your browser to see the result.
+
+
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
