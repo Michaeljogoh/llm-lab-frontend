@@ -40,8 +40,14 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
       toast.error(err.message || "Something went wrong.");
     },
     onSuccess: () =>{
-      toast.success('Successfully created!', { duration: 500 });
-      router.refresh()
+    toast.success('Successfully created!', { duration: 500 });
+    router.refresh()
+    setInput('')
+    setTemperature([0.1])
+    setTopK([0.1])
+    setTopP([0.1])
+    setMaxToken([0.1])
+
     }
   });
 
@@ -61,11 +67,6 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
 
     mutation.mutate();
     
-    setInput('')
-    setTemperature([0.1])
-    setTopK([0.1])
-    setTopP([0.1])
-    setMaxToken([0.1])
   };
 
 
