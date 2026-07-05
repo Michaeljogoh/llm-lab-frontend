@@ -1,11 +1,24 @@
-import Home from "../components/Home";
-import { Experiment } from "../types/experiment";
+import { Dashboard } from "@/components/dashboard/Dashboard";
+import { Experiment } from "@/types/experiment";
 
-export default async function page() {
-  const data = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/experiment`, {
-    cache: "no-cache",
-  });
-  const experiments: Experiment[] = await data.json();
-  
-  return <Home experiments={experiments} />;
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+
+export default async function Page() {
+  let experiments: Experiment[] = [];
+
+  if (BASE_URL) {
+    try {
+      const res = await fetch(`${BASE_URL}/experiment`, {
+        cache: "no-cache",
+      });
+
+      if (res.ok) {
+        experiments = await res.json();
+      }
+    } catch {
+      // Backend unreachable
+    }
+  }
+
+  return <Dashboard experiments={experiments} />;
 }

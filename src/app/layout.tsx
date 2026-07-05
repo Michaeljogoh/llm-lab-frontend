@@ -1,22 +1,23 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter, Space_Grotesk } from "next/font/google";
+import { Toaster } from "sonner";
 import "./globals.css";
-import ReactQueryProvider from "../provider/ReactQueryProvider";
-import { Toaster } from "react-hot-toast";
+import ReactQueryProvider from "@/provider/ReactQueryProvider";
+import { ThemeProvider } from "@/provider/theme-provider";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const spaceGrotesk = Space_Grotesk({
+  variable: "--font-space-grotesk",
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
-  title: "LLM LAB",
-  description: "Generate LLM API Response",
+  title: "LLM Lab",
+  description: "Parameter sweep and response analysis for Gemini experiments",
 };
 
 export default function RootLayout({
@@ -25,14 +26,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${spaceGrotesk.variable} ${inter.variable} antialiased`}
       >
-        <ReactQueryProvider>
-          <Toaster />
-          {children}
-        </ReactQueryProvider>
+        <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
+          <ReactQueryProvider>
+            {children}
+            <Toaster richColors closeButton position="top-right" />
+          </ReactQueryProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
