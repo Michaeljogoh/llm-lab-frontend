@@ -1,2 +1,431 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --background: hsl(0 0% 100%);
+  --foreground: hsl(0 0% 13%);
+  --card: hsl(0 0% 100%);
+  --card-foreground: hsl(0 0% 13%);
+  --popover: hsl(0 0% 100%);
+  --popover-foreground: hsl(0 0% 13%);
+  --primary: hsl(240 6% 10%);
+  --primary-foreground: hsl(0 0% 100%);
+  --secondary: hsl(40 14% 93%);
+  --secondary-foreground: hsl(0 0% 13%);
+  --muted: hsl(40 14% 93%);
+  --muted-foreground: hsl(240 4% 60%);
+  --accent: hsl(168 100% 12%);
+  --accent-foreground: hsl(0 0% 100%);
+  --destructive: hsl(0 100% 35%);
+  --destructive-foreground: hsl(0 0% 100%);
+  --border: hsl(240 6% 86%);
+  --input: hsl(240 6% 86%);
+  --ring: hsl(221 78% 48%);
+  --radius: 0.5rem;
+  --coral: hsl(12 100% 67%);
+  --action-blue: hsl(217 78% 48%);
+  --deep-green: hsl(168 100% 12%);
+  --soft-stone: hsl(40 14% 93%);
+  --chart-1: hsl(217 78% 48%);
+  --chart-2: hsl(168 100% 22%);
+  --chart-3: hsl(12 100% 67%);
+  --chart-4: hsl(280 45% 55%);
+  --chart-5: hsl(38 92% 50%);
+}
+
+.dark {
+  --background: hsl(240 8% 5%);
+  --foreground: hsl(0 0% 96%);
+  --card: hsl(240 6% 9%);
+  --card-foreground: hsl(0 0% 96%);
+  --popover: hsl(240 6% 10%);
+  --popover-foreground: hsl(0 0% 96%);
+  --primary: hsl(0 0% 96%);
+  --primary-foreground: hsl(240 8% 8%);
+  --secondary: hsl(240 5% 14%);
+  --secondary-foreground: hsl(0 0% 96%);
+  --muted: hsl(240 5% 13%);
+  --muted-foreground: hsl(240 4% 62%);
+  --accent: hsl(168 55% 38%);
+  --accent-foreground: hsl(0 0% 98%);
+  --destructive: hsl(0 62% 45%);
+  --destructive-foreground: hsl(0 0% 96%);
+  --border: hsl(240 5% 18%);
+  --input: hsl(240 5% 16%);
+  --ring: hsl(217 78% 58%);
+  --coral: hsl(12 88% 64%);
+  --action-blue: hsl(217 78% 62%);
+  --deep-green: hsl(168 48% 28%);
+  --soft-stone: hsl(240 5% 12%);
+  --chart-1: hsl(217 78% 58%);
+  --chart-2: hsl(168 55% 42%);
+  --chart-3: hsl(12 88% 64%);
+  --chart-4: hsl(280 45% 62%);
+  --chart-5: hsl(38 92% 55%);
+  --surface-elevated: hsl(240 6% 11%);
+  --surface-inset: hsl(240 8% 4%);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-coral: var(--coral);
+  --color-action-blue: var(--action-blue);
+  --color-deep-green: var(--deep-green);
+  --color-soft-stone: var(--soft-stone);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-surface-elevated: var(--surface-elevated);
+  --color-surface-inset: var(--surface-inset);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --font-display: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
+  --font-body: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  .dark body {
+    background-image:
+      radial-gradient(ellipse 90% 60% at 50% -30%, hsl(168 45% 18% / 0.22), transparent 55%),
+      radial-gradient(ellipse 50% 40% at 100% 0%, hsl(217 60% 22% / 0.12), transparent 50%),
+      radial-gradient(ellipse 40% 30% at 0% 100%, hsl(240 30% 12% / 0.4), transparent 45%);
+    background-attachment: fixed;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+  }
+}
+
+@layer utilities {
+  .font-display {
+    font-family: var(--font-display);
+  }
+
+  .font-mono-label {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .sheet-enter {
+    animation: sheet-slide-in 0.28s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  .overlay-enter {
+    animation: overlay-fade-in 0.2s ease-out;
+  }
+
+  /* Premium black / white interaction system */
+  .surface-black {
+    background-color: #000000;
+    color: #ffffff;
+    border: 1px solid rgb(255 255 255 / 12%);
+  }
+
+  .surface-black :is(h1, h2, h3, h4, p, span, .font-display) {
+    color: inherit;
+  }
+
+  .surface-black .text-muted {
+    color: rgb(255 255 255 / 68%);
+  }
+
+  /* Dark panels (Live bench, etc.) — always black/white, no color flip on hover */
+  .card-dark {
+    background-color: #000000;
+    color: #ffffff;
+    border: 1px solid rgb(255 255 255 / 12%);
+    transition:
+      transform 200ms cubic-bezier(0.23, 1, 0.32, 1),
+      box-shadow 200ms cubic-bezier(0.23, 1, 0.32, 1),
+      border-color 200ms cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  .card-dark :is(h1, h2, h3, h4, p, span, .font-display) {
+    color: inherit;
+  }
+
+  .hover-black {
+    transition:
+      transform 200ms cubic-bezier(0.23, 1, 0.32, 1),
+      background-color 200ms cubic-bezier(0.23, 1, 0.32, 1),
+      border-color 200ms cubic-bezier(0.23, 1, 0.32, 1),
+      color 200ms cubic-bezier(0.23, 1, 0.32, 1),
+      box-shadow 200ms cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  .card-surface {
+    color: #000000;
+    transition:
+      transform 200ms cubic-bezier(0.23, 1, 0.32, 1),
+      box-shadow 200ms cubic-bezier(0.23, 1, 0.32, 1),
+      border-color 200ms cubic-bezier(0.23, 1, 0.32, 1),
+      background-color 200ms cubic-bezier(0.23, 1, 0.32, 1),
+      color 200ms cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  .chip-dark {
+    border: 1px solid rgb(255 255 255 / 22%);
+    background: rgb(255 255 255 / 8%);
+    color: #ffffff;
+    transition:
+      background-color 200ms cubic-bezier(0.23, 1, 0.32, 1),
+      border-color 200ms cubic-bezier(0.23, 1, 0.32, 1),
+      color 200ms cubic-bezier(0.23, 1, 0.32, 1),
+      transform 200ms cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  .chip-light {
+    border: 1px solid var(--border);
+    background: rgb(255 255 255 / 90%);
+    color: #000000;
+    transition:
+      background-color 200ms cubic-bezier(0.23, 1, 0.32, 1),
+      border-color 200ms cubic-bezier(0.23, 1, 0.32, 1),
+      color 200ms cubic-bezier(0.23, 1, 0.32, 1),
+      transform 200ms cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  .dark .card-surface {
+    color: var(--card-foreground);
+  }
+
+  .dark .chip-light {
+    background: hsl(240 5% 15%);
+    color: var(--foreground);
+    border-color: hsl(240 5% 22%);
+  }
+
+  .dark .surface-panel {
+    background: hsl(240 5% 12% / 80%);
+    border-color: hsl(240 5% 20%);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .hover-black:hover,
+    .card-surface:hover {
+      transform: translateY(-2px);
+      border-color: #000000 !important;
+      background-color: #000000 !important;
+      color: #ffffff !important;
+      box-shadow: 0 14px 36px rgb(0 0 0 / 22%);
+    }
+
+    .hover-black:hover .text-black,
+    .card-surface:hover .text-black {
+      color: #ffffff !important;
+    }
+
+    .hover-black:hover [class*="text-black/"],
+    .card-surface:hover [class*="text-black/"] {
+      color: rgb(255 255 255 / 72%) !important;
+    }
+
+    .hover-black:hover svg,
+    .card-surface:hover svg {
+      color: #ffffff;
+    }
+
+    .card-surface:hover .icon-tile {
+      background: rgb(255 255 255 / 14%) !important;
+      color: #ffffff !important;
+    }
+
+    .card-surface:hover .rounded-full.border {
+      border-color: rgb(255 255 255 / 35%) !important;
+      background: rgb(255 255 255 / 12%) !important;
+      color: #ffffff !important;
+    }
+
+    .row-hover-black:hover {
+      background-color: #000000 !important;
+      color: #ffffff !important;
+    }
+
+    .row-hover-black:hover .text-black,
+    .row-hover-black:hover [class*="text-black/"] {
+      color: rgb(255 255 255 / 88%) !important;
+    }
+
+    .row-hover-black:hover .rounded-full.border {
+      border-color: rgb(255 255 255 / 35%) !important;
+      background: rgb(255 255 255 / 12%) !important;
+      color: #ffffff !important;
+    }
+
+    .row-hover-black:hover button {
+      color: rgb(255 255 255 / 88%);
+    }
+
+    .row-hover-black:hover button:hover {
+      background: rgb(255 255 255 / 12%);
+      color: #ffffff;
+    }
+
+    .chip-dark:hover {
+      transform: translateY(-1px);
+      border-color: #ffffff;
+      background: rgb(255 255 255 / 16%);
+      color: #ffffff;
+    }
+
+    .chip-light:hover {
+      transform: translateY(-1px);
+      border-color: #000000;
+      background: #000000;
+      color: #ffffff;
+    }
+
+    .card-dark:hover {
+      transform: translateY(-2px);
+      border-color: rgb(255 255 255 / 28%);
+      box-shadow: 0 14px 36px rgb(0 0 0 / 28%);
+    }
+
+    .card-dark:hover [class*="text-white/"] {
+      color: rgb(255 255 255 / 88%) !important;
+    }
+
+    .card-dark:hover svg {
+      color: #ffffff;
+    }
+
+    .card-dark:hover .bench-panel,
+    .card-dark:hover .bench-tile {
+      border-color: rgb(255 255 255 / 22%);
+      background: rgb(255 255 255 / 10%);
+    }
+
+    .card-dark:hover .chip-dark {
+      border-color: rgb(255 255 255 / 45%);
+      background: rgb(255 255 255 / 14%);
+      color: #ffffff;
+    }
+
+    /* Dark theme: subtle lift + glow instead of black flip */
+    .dark .hover-black:hover,
+    .dark .card-surface:hover {
+      transform: translateY(-2px);
+      border-color: hsl(0 0% 100% / 16%) !important;
+      background-color: hsl(240 5% 15%) !important;
+      color: var(--foreground) !important;
+      box-shadow:
+        0 16px 40px rgb(0 0 0 / 55%),
+        0 0 0 1px hsl(0 0% 100% / 6%);
+    }
+
+    .dark .hover-black:hover .text-foreground,
+    .dark .card-surface:hover .text-foreground,
+    .dark .hover-black:hover .text-black,
+    .dark .card-surface:hover .text-black {
+      color: var(--foreground) !important;
+    }
+
+    .dark .hover-black:hover [class*="text-muted"],
+    .dark .card-surface:hover [class*="text-muted"],
+    .dark .hover-black:hover [class*="text-black/"],
+    .dark .card-surface:hover [class*="text-black/"] {
+      color: hsl(240 4% 72%) !important;
+    }
+
+    .dark .hover-black:hover svg,
+    .dark .card-surface:hover svg {
+      color: var(--foreground);
+    }
+
+    .dark .card-surface:hover .icon-tile {
+      background: hsl(0 0% 100% / 10%) !important;
+      color: var(--foreground) !important;
+    }
+
+    .dark .row-hover-black:hover {
+      background-color: hsl(240 5% 16%) !important;
+      color: var(--foreground) !important;
+      box-shadow: inset 0 0 0 1px hsl(0 0% 100% / 6%);
+    }
+
+    .dark .row-hover-black:hover .text-foreground,
+    .dark .row-hover-black:hover .text-black,
+    .dark .row-hover-black:hover [class*="text-black/"],
+    .dark .row-hover-black:hover [class*="text-muted"] {
+      color: hsl(0 0% 92%) !important;
+    }
+
+    .dark .chip-light:hover {
+      transform: translateY(-1px);
+      border-color: hsl(0 0% 100% / 22%);
+      background: hsl(240 5% 20%);
+      color: var(--foreground);
+    }
+  }
+}
+
+@keyframes sheet-slide-in {
+  from {
+    transform: translateX(100%);
+    opacity: 0.8;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes overlay-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sheet-enter,
+  .overlay-enter {
+    animation: none;
+  }
+
+  .card-surface:hover,
+  .card-dark:hover,
+  .hover-black:hover,
+  .chip-dark:hover,
+  .chip-light:hover {
+    transform: none;
+  }
+}
