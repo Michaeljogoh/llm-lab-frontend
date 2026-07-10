@@ -1,9 +1,8 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import axios from "axios";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { ArrowLeft, FlaskConical, Plus, Sparkles } from "lucide-react";
 import { Experiment } from "@/types/experiment";
@@ -14,6 +13,10 @@ import {
   sortExperiments,
 } from "@/lib/experiment-utils";
 import { useFavorites } from "@/hooks/use-favorites";
+import {
+  useExperiments,
+  useInvalidateExperiments,
+} from "@/hooks/use-experiments";
 import { AppHeader } from "@/components/dashboard/AppHeader";
 import {
   ExperimentFilters,
@@ -24,13 +27,11 @@ import { ExperimentDetailSheet } from "@/components/dashboard/ExperimentDetailSh
 import { ExperimentDetailCard } from "./ExperimentDetailCard";
 import { BenchmarkPanel } from "./BenchmarkPanel";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 
-interface ExperimentsPageProps {
-  experiments: Experiment[];
-}
-
-export function ExperimentsPage({ experiments }: ExperimentsPageProps) {
-  const router = useRouter();
+export function ExperimentsPage() {
+  const { data: experiments = [], isLoading } = useExperiments();
+  const invalidateExperiments = useInvalidateExperiments();
   const { favorites, isFavorite, toggleFavorite } = useFavorites();
   const [search, setSearch] = useState("");
   const [sortBy, setSortBy] = useState<"date" | "score" | "variations">("date");
@@ -40,6 +41,12 @@ export function ExperimentsPage({ experiments }: ExperimentsPageProps) {
     useState<Experiment | null>(null);
   const [detailOpen, setDetailOpen] = useState(false);
   const [deletingId, setDeletingId] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!selectedExperiment) return;
+    const fresh = experiments.find((e) => e._id === selectedExperiment._id);
+    if (fresh) setSelectedExperiment(fresh);
+  }, [experiments, selectedExperiment]);
 
   const totalRuns = experiments.reduce(
     (sum, experiment) => sum + experiment.responses.length,
@@ -78,7 +85,7 @@ export function ExperimentsPage({ experiments }: ExperimentsPageProps) {
         setDetailOpen(false);
         setSelectedExperiment(null);
       }
-      router.refresh();
+      invalidateExperiments();
     } catch {
       toast.error("Failed to delete experiment");
     } finally {
@@ -185,7 +192,13 @@ export function ExperimentsPage({ experiments }: ExperimentsPageProps) {
             />
           </div>
 
-          {filtered.length === 0 ? (
+          {isLoading ? (
+            <div className="grid gap-6">
+              {Array.from({ length: 3 }).map((_, i) => (
+                <Skeleton key={i} className="h-48 w-full rounded-[18px]" />
+              ))}
+            </div>
+          ) : filtered.length === 0 ? (
             <div className="flex flex-col items-center justify-center rounded-[18px] border border-dashed border-border bg-muted/40 px-6 py-24 text-center">
               <div className="mb-4 flex size-14 items-center justify-center rounded-full bg-deep-green/10">
                 <FlaskConical className="size-6 text-deep-green" />

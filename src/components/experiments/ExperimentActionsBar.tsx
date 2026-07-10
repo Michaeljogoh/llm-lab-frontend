@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useInvalidateExperiments } from "@/hooks/use-experiments";
 import {
   Copy,
   Gavel,
@@ -25,7 +25,7 @@ export function ExperimentActionsBar({
   experiment,
   onUpdated,
 }: ExperimentActionsBarProps) {
-  const router = useRouter();
+  const invalidateExperiments = useInvalidateExperiments();
   const [loading, setLoading] = useState<string | null>(null);
 
   const run = async (
@@ -38,7 +38,7 @@ export function ExperimentActionsBar({
       const { data } = await fn();
       onUpdated?.(data);
       toast.success(message);
-      router.refresh();
+      invalidateExperiments();
     } catch {
       toast.error(`Action failed: ${key}`);
     } finally {

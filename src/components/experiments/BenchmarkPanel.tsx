@@ -1,14 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useInvalidateExperiments } from "@/hooks/use-experiments";
 import { FlaskConical, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { getApiClient } from "@/lib/api-client";
 import { Button } from "@/components/ui/button";
 
 export function BenchmarkPanel() {
-  const router = useRouter();
+  const invalidateExperiments = useInvalidateExperiments();
   const [loading, setLoading] = useState(false);
 
   const runBenchmark = async () => {
@@ -18,7 +18,7 @@ export function BenchmarkPanel() {
         "/experiment/benchmark"
       );
       toast.success(`Benchmark suite started (${data.suiteId.slice(0, 8)}…)`);
-      router.refresh();
+      invalidateExperiments();
     } catch {
       toast.error("Failed to start benchmark");
     } finally {

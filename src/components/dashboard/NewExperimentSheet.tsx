@@ -1,7 +1,7 @@
 "use client";
 
 import { useMutation } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
+import { useInvalidateExperiments } from "@/hooks/use-experiments";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { Loader2, Sparkles } from "lucide-react";
@@ -41,7 +41,7 @@ interface NewExperimentSheetProps {
 }
 
 export function NewExperimentSheet({ open, onOpenChange }: NewExperimentSheetProps) {
-  const router = useRouter();
+  const invalidateExperiments = useInvalidateExperiments();
   const [prompt, setPrompt] = useState("");
   const [systemPrompt, setSystemPrompt] = useState("");
   const [tags, setTags] = useState<string[]>([]);
@@ -63,7 +63,7 @@ export function NewExperimentSheet({ open, onOpenChange }: NewExperimentSheetPro
     !!activeExperimentId,
     () => {
       toast.success("Experiment completed");
-      router.refresh();
+      invalidateExperiments();
       resetForm();
       setActiveExperimentId(null);
       onOpenChange(false);
@@ -89,7 +89,7 @@ export function NewExperimentSheet({ open, onOpenChange }: NewExperimentSheetPro
     onSuccess: (data) => {
       toast.success("Sweep queued — running in background");
       setActiveExperimentId(data._id);
-      router.refresh();
+      invalidateExperiments();
     },
     onError: () => {
       toast.error("Failed to start experiment");

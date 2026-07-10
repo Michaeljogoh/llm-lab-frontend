@@ -26,6 +26,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface ExperimentTableProps {
   experiments: Experiment[];
@@ -34,6 +35,7 @@ interface ExperimentTableProps {
   isFavorite: (id: string) => boolean;
   onToggleFavorite: (id: string) => void;
   isDeleting?: string | null;
+  isLoading?: boolean;
 }
 
 export function ExperimentTable({
@@ -43,7 +45,18 @@ export function ExperimentTable({
   isFavorite,
   onToggleFavorite,
   isDeleting,
+  isLoading,
 }: ExperimentTableProps) {
+  if (isLoading) {
+    return (
+      <div className="space-y-3 rounded-lg border border-border bg-card p-4">
+        {Array.from({ length: 4 }).map((_, i) => (
+          <Skeleton key={i} className="h-14 w-full rounded-md" />
+        ))}
+      </div>
+    );
+  }
+
   if (experiments.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center rounded-lg border border-dashed border-border bg-muted/40 px-6 py-20 text-center dark:bg-secondary/20">
