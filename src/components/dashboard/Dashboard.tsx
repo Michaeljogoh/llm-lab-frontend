@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -13,6 +13,10 @@ import {
   sortExperiments,
 } from "@/lib/experiment-utils";
 import { useFavorites } from "@/hooks/use-favorites";
+import {
+  useExperiments,
+  useInvalidateExperiments,
+} from "@/hooks/use-experiments";
 import { AnnouncementBar } from "./AnnouncementBar";
 import { AppHeader } from "./AppHeader";
 import { StatsBar } from "./StatsBar";
@@ -31,12 +35,10 @@ import { ExperimentTable } from "./ExperimentTable";
 import { NewExperimentSheet } from "./NewExperimentSheet";
 import { ExperimentDetailSheet } from "./ExperimentDetailSheet";
 
-interface DashboardProps {
-  experiments: Experiment[];
-}
-
-export function Dashboard({ experiments }: DashboardProps) {
+export function Dashboard() {
   const router = useRouter();
+  const { data: experiments = [], isLoading } = useExperiments();
+  const invalidateExperiments = useInvalidateExperiments();
   const { favorites, isFavorite, toggleFavorite } = useFavorites();
   const [search, setSearch] = useState("");
   const [sortBy, setSortBy] = useState<"date" | "score" | "variations">("date");
@@ -46,6 +48,12 @@ export function Dashboard({ experiments }: DashboardProps) {
     useState<Experiment | null>(null);
   const [detailOpen, setDetailOpen] = useState(false);
   const [deletingId, setDeletingId] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!selectedExperiment) return;
+    const fresh = experiments.find((e) => e._id === selectedExperiment._id);
+    if (fresh) setSelectedExperiment(fresh);
+  }, [experiments, selectedExperiment]);
 
   const totalRuns = experiments.reduce(
     (sum, experiment) => sum + experiment.responses.length,
@@ -79,7 +87,7 @@ export function Dashboard({ experiments }: DashboardProps) {
         setDetailOpen(false);
         setSelectedExperiment(null);
       }
-      router.refresh();
+      invalidateExperiments();
     } catch {
       toast.error("Failed to delete experiment");
     } finally {
@@ -168,6 +176,7 @@ export function Dashboard({ experiments }: DashboardProps) {
                 isFavorite={isFavorite}
                 onToggleFavorite={toggleFavorite}
                 isDeleting={deletingId}
+                isLoading={isLoading}
               />
             </section>
           </div>

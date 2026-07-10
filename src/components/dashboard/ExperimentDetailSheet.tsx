@@ -28,7 +28,7 @@ import { ShareExperimentPanel } from "@/components/experiments/ShareExperimentPa
 import { ExperimentActionsBar } from "@/components/experiments/ExperimentActionsBar";
 import { ExperimentProgressBanner } from "@/components/experiments/ExperimentProgressBanner";
 import { useExperimentPoll } from "@/hooks/use-experiment-poll";
-import { useRouter } from "next/navigation";
+import { useInvalidateExperiments } from "@/hooks/use-experiments";
 
 interface ExperimentDetailSheetProps {
   experiment: Experiment | null;
@@ -45,7 +45,7 @@ export function ExperimentDetailSheet({
   isFavorite,
   onToggleFavorite,
 }: ExperimentDetailSheetProps) {
-  const router = useRouter();
+  const invalidateExperiments = useInvalidateExperiments();
   const [experiment, setExperiment] = useState(initialExperiment);
   const [compareIds, setCompareIds] = useState<number[]>([]);
 
@@ -56,7 +56,7 @@ export function ExperimentDetailSheet({
   const { status, progress, percent } = useExperimentPoll(
     experiment?._id ?? null,
     open && (experiment?.status === "running" || experiment?.status === "queued"),
-    () => router.refresh()
+    () => invalidateExperiments()
   );
 
   const stats = useMemo(
